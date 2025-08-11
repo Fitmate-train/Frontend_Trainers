@@ -38,7 +38,6 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       OAuthToken token;
       final installed = await isKakaoTalkInstalled();
-      print('Talk installed: $installed');
 
       if (installed) {
         try {
@@ -46,6 +45,8 @@ class _LoginScreenState extends State<LoginScreen> {
           print('KakaoTalk login OK: ${token.accessToken}');
         } catch (e, st) {
           print('KakaoTalk login error: $e\n$st');
+
+          // ✅ 취소면 조용히 끝내기 (홈으로 보내지 않음)
           if (_isUserCancelled(e)) {
             if (!mounted) return;
             ScaffoldMessenger.of(
@@ -53,7 +54,8 @@ class _LoginScreenState extends State<LoginScreen> {
             ).showSnackBar(const SnackBar(content: Text('로그인이 취소되었어요.')));
             return;
           }
-          // 톡 로그인 실패 시 웹 로그인 폴백
+
+          // 톡 실패 → 계정 로그인 폴백
           print('Falling back to KakaoAccount (web) login...');
           try {
             token = await UserApi.instance.loginWithKakaoAccount();
@@ -71,6 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
           }
         }
       } else {
+        // 톡 미설치 → 계정 로그인
         try {
           token = await UserApi.instance.loginWithKakaoAccount();
           print('KakaoAccount login OK: ${token.accessToken}');
@@ -87,10 +90,9 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       }
 
-      // ✅ 프로필 정보 동의가 필요한 경우만 추가 스코프 요청
+      // === 여기부터 '성공 로직' ===
       final me0 = await UserApi.instance.me();
       final needsProfile = me0.kakaoAccount?.profileNeedsAgreement ?? false;
-
       if (needsProfile) {
         try {
           await UserApi.instance.loginWithNewScopes([
@@ -109,19 +111,20 @@ class _LoginScreenState extends State<LoginScreen> {
           }
           rethrow;
         }
-      } else {
-        print('추가 스코프 불필요');
       }
 
-      // 최종 사용자 정보 조회
       final me = await UserApi.instance.me();
       final nickname = me.kakaoAccount?.profile?.nickname ?? '사용자';
 
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('nickname', nickname);
 
+      // ✅ 성공 후 여기서 홈으로 이동
       if (!mounted) return;
-      Navigator.pushReplacementNamed(context, '/');
+      Navigator.of(
+        context,
+        rootNavigator: true,
+      ).pushNamedAndRemoveUntil('/', (route) => false);
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('$nickname님 환영해요!')));

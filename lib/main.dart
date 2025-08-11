@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
+
+import 'screens/home_screen.dart';
 import 'login.dart';
 
 void main() async {
@@ -24,51 +26,17 @@ class FitMateTrainerApp extends StatelessWidget {
     return MaterialApp(
       title: 'FitMate Trainer',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF00A68A)),
-        useMaterial3: true,
-        scaffoldBackgroundColor: const Color(0xFFF7F7FB),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          elevation: 0,
-        ),
-      ),
-      home: const LoginScreen(), // ✅ 첫 화면
+
+      // ✅ 집 하나만: 추천은 home 사용
+      home: const HomeScreen(),
+
+      // ✅ 네임드 라우트 테이블
+      routes: {
+        '/login': (context) => const LoginScreen(),
+        '/home': (context) => const HomeScreen(), // 안전망
+      },
+
+      // ❌ 아래 onGenerateRoute 주석 블록/중복 MaterialApp은 전부 삭제
     );
   }
 }
-
-      // 동적 라우트(인자 전달 등) 처리
-      /*  onGenerateRoute: (settings) {
-        switch (settings.name) {
-          case '/request_detail':
-            final requestId =
-                settings.arguments as String?; // ex) 'REQ-2025-0001'
-            return MaterialPageRoute(
-              builder:
-                  (_) => RequestDetailScreen(requestId: requestId ?? 'unknown'),
-              settings: settings,
-            );
-
-          // 필요 시 케이스 추가...
-          default:
-            // 알 수 없는 라우트 처리 (404 대용)
-            return MaterialPageRoute(
-              builder:
-                  (_) => Scaffold(
-                    body: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(24),
-                        child: Text(
-                          'Unknown route: ${settings.name}',
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      ),
-                    ),
-                  ),
-              settings: settings, */
-      //   );
-      //   }
-      //  },
- 
