@@ -5,6 +5,7 @@ import '../data/dummy_trainers.dart';
 import '../models/trainer_model.dart';
 import '../widgets/TopNav.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import '../widgets/BottomNav.dart';
 
 Future<String?> _getSavedNickname() async {
   final prefs = await SharedPreferences.getInstance();
@@ -108,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onPressed:
                           () => Navigator.pushNamed(context, '/lesson_explore'),
                       icon: const Icon(Icons.search),
-                      label: const Text('수업 찾기'),
+                      label: const Text('수업 개설'),
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(140, 50),
                       ),
@@ -118,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onPressed:
                           () => Navigator.pushNamed(context, '/requests'),
                       icon: const Icon(Icons.add_circle),
-                      label: const Text('수업 개설'),
+                      label: const Text('수업 찾기'),
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(140, 50),
                       ),
@@ -306,15 +307,26 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          bottomNavigationBar: BottomNavigationBar(
-            items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
-              BottomNavigationBarItem(icon: Icon(Icons.chat), label: '채팅'),
-              BottomNavigationBarItem(icon: Icon(Icons.person), label: '마이페이지'),
-            ],
-            currentIndex: 0,
-            onTap: (index) {
-              // TODO: 페이지 전환
+          bottomNavigationBar: BottomNav(
+            currentIndex: 0, // 현재 탭 인덱스
+            onTap: (i) {
+              switch (i) {
+                case 0:
+                  Navigator.pushReplacementNamed(context, '/');
+                  break;
+                case 1:
+                  Navigator.pushReplacementNamed(context, '/requests');
+                  break;
+                case 2:
+                  Navigator.pushReplacementNamed(context, '/lesson_request');
+                  break;
+                case 3:
+                  Navigator.pushReplacementNamed(context, '/chat');
+                  break; // 라우트 있으면
+                case 4:
+                  Navigator.pushReplacementNamed(context, '/profile');
+                  break;
+              }
             },
           ),
         );

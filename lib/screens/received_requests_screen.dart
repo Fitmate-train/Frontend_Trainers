@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/lesson_request.dart';
 import '../services/request_service.dart';
+import '../widgets/BottomNav.dart';
 
 class ReceivedRequestsScreen extends StatefulWidget {
   const ReceivedRequestsScreen({super.key});
@@ -137,11 +138,25 @@ class _ReceivedRequestsScreenState extends State<ReceivedRequestsScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: _BottomNav(
-        currentIndex: 1,
+      bottomNavigationBar: BottomNav(
+        currentIndex: 1, // 현재 탭 인덱스
         onTap: (i) {
-          if (i == 0) {
-            Navigator.pushReplacementNamed(context, '/');
+          switch (i) {
+            case 0:
+              Navigator.pushReplacementNamed(context, '/');
+              break;
+            case 1:
+              Navigator.pushReplacementNamed(context, '/requests');
+              break;
+            case 2:
+              Navigator.pushReplacementNamed(context, '/lesson_request');
+              break;
+            case 3:
+              Navigator.pushReplacementNamed(context, '/chat');
+              break; // 라우트 있으면
+            case 4:
+              Navigator.pushReplacementNamed(context, '/profile');
+              break;
           }
         },
       ),
@@ -320,33 +335,6 @@ class _EmptyBox extends StatelessWidget {
           FilledButton(onPressed: onNew, child: const Text('새로고침')),
         ],
       ),
-    );
-  }
-}
-
-class _BottomNav extends StatelessWidget {
-  final int currentIndex;
-  final ValueChanged<int> onTap;
-  const _BottomNav({required this.currentIndex, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return NavigationBar(
-      selectedIndex: currentIndex,
-      onDestinationSelected: onTap,
-      destinations: const [
-        NavigationDestination(icon: Icon(Icons.home_outlined), label: '홈'),
-        NavigationDestination(icon: Icon(Icons.inbox_outlined), label: '받은요청'),
-        NavigationDestination(
-          icon: Icon(Icons.note_alt_outlined),
-          label: '바로견적',
-        ),
-        NavigationDestination(
-          icon: Icon(Icons.chat_bubble_outline),
-          label: '채팅',
-        ),
-        NavigationDestination(icon: Icon(Icons.person_outline), label: '프로필'),
-      ],
     );
   }
 }
