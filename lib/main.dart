@@ -3,25 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
-
-// ====== 스크린 임포트 ======
-// 실제 파일 경로/이름에 맞게 수정해줘.
-import 'login.dart'; // 로그인
+import 'login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Kakao SDK 초기화 (키는 본인 앱 키로 교체)
   KakaoSdk.init(
     nativeAppKey: 'dffe940431e8285758476bbe7217c04e',
-    javaScriptAppKey:
-        '45f011c401b4fb7e681e48c49055b79a', // 웹 뷰/계정로그인 쓸 때 편의상 추가
+    javaScriptAppKey: '45f011c401b4fb7e681e48c49055b79a',
   );
-
-  // 로케일 초기화
   await initializeDateFormatting('ko_KR', null);
   Intl.defaultLocale = 'ko_KR';
-
   runApp(const FitMateTrainerApp());
 }
 
@@ -43,12 +34,10 @@ class FitMateTrainerApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-
-      // 최초 진입 화면
-      initialRoute: '/',
-
-      // 정적 라우트 매핑
-      routes: {'/login': (context) => const LoginScreen()},
+      home: const LoginScreen(), // ✅ 첫 화면
+    );
+  }
+}
 
       // 동적 라우트(인자 전달 등) 처리
       /*  onGenerateRoute: (settings) {
@@ -82,6 +71,4 @@ class FitMateTrainerApp extends StatelessWidget {
       //   );
       //   }
       //  },
-    );
-  }
-}
+ 

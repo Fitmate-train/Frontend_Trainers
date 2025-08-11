@@ -44,6 +44,8 @@
 	<key>CFBundleURLTypes</key>
 <array>
   <dict>
+  <key>CFBundleURLName</key>
+  <string>kakaokompassauth</string>
     <key>CFBundleURLSchemes</key>
     <array>
       <string>myapp</string>

@@ -3,17 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/services.dart';
 
-/// ✅ 사용자 취소 감지 함수 (전역)
+// 취소 감지 함수 교체
 bool _isUserCancelled(Object e) {
-  // 카카오 SDK의 취소 사유 체크
+  if (e is PlatformException &&
+      (e.code.toUpperCase() == 'CANCELED' ||
+          e.code.toUpperCase() == 'CANCELLED')) {
+    return true;
+  }
   if (e is KakaoAuthException && e.error == AuthErrorCause.accessDenied)
     return true;
   if (e is KakaoApiException && e.code == ApiErrorCause.accessDenied)
     return true;
-  // 혹시 문자열만 들어오는 경우도 대비
+
   final s = e.toString().toLowerCase();
-  return s.contains('access_denied') || s.contains('cancel');
+  return s.contains('access_denied') ||
+      s.contains('canceled') ||
+      s.contains('cancelled');
 }
 
 class LoginScreen extends StatefulWidget {
