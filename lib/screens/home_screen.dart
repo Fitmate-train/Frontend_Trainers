@@ -101,7 +101,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const Divider(height: 32),
 
-                // 주요 CTA 버튼
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -114,11 +113,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         minimumSize: const Size(140, 50),
                       ),
                     ),
+
                     ElevatedButton.icon(
                       onPressed:
-                          () => Navigator.pushNamed(context, '/lesson_request'),
+                          () => Navigator.pushNamed(context, '/requests'),
                       icon: const Icon(Icons.add_circle),
-                      label: const Text('수업 요청'),
+                      label: const Text('수업 개설'),
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(140, 50),
                       ),
