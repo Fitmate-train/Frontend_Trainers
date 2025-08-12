@@ -241,7 +241,7 @@ class _ChatCollectionScreenState extends State<ChatCollectionScreen> {
 
       // 새 대화
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => Navigator.pushNamed(context, '/lesson_explore'),
+        onPressed: () => Navigator.pushNamed(context, '/chat_room'),
         label: const Text('새 채팅'),
         icon: const Icon(Icons.chat_bubble_outline),
       ),

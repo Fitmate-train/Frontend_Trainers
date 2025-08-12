@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:my_project_name/screens/chat_collection_screen.dart';
+import 'package:my_project_name/screens/chat_room_screen.dart';
 import 'package:my_project_name/screens/lesson_chat_screen.dart';
 import 'package:my_project_name/screens/lesson_detail_screen.dart';
 import 'package:my_project_name/screens/lesson_explore_screen.dart';
@@ -57,6 +58,7 @@ class FitMateTrainerApp extends StatelessWidget {
         '/lesson_detail': (context) => LessonDetailScreen(),
         '/lesson_chat': (context) => LessonChatScreen(),
         '/chat_collection': (context) => ChatCollectionScreen(),
+        '/chat_room': (context) => ChatRoomScreen(),
       },
 
       theme: ThemeData(
